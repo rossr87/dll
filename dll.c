@@ -15,6 +15,8 @@ int append_item(dll_t *list, void *app_data) {
     }
     else {
         new_node->data = app_data;
+        new_node->right = NULL;
+        new_node->left = NULL;
     }
 
     if (!list->head) {
@@ -46,6 +48,9 @@ int prepend_item(dll_t *my_list, void *app_data) {
         fprintf(stderr, "Error allocating new node !\n");
         return -1;
     }
+
+    new_node->right = NULL;
+    new_node->left = NULL;
 
     new_node->data = app_data;
 
