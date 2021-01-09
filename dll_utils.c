@@ -26,7 +26,7 @@ int remove_data_from_dll_by_data_ptr(dll_t *my_list, void *app_data) {
      * Either the list has been traversed and the data is not present, or the data has been found.
      */
     if (!current_node) {
-        return -1
+        return -1;
     }
     
     /*
@@ -71,8 +71,13 @@ void drain_dll(dll_t *my_list) {
      */
     while (current_node->right) {
         my_list->head = current_node->right;	/* set the head to point to the second node */
+
+        current_node->data = NULL;		/* set heap contents to defined values */		
+        current_node->right = NULL;
+        current_node->left = NULL;
         free(current_node);			/* free the memory occupied by the struct that was the first node on the list */
-        current_node = my_list->head;   	/* update our iterator (current_node */
+        
+	current_node = my_list->head;   	/* update our iterator (current_node) */
     }
 
     /*

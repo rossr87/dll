@@ -21,6 +21,7 @@ typedef struct person_ {
 
 
 void print_person(person_t *person) {
+
     printf("Name: %s\n", person->name);
     printf("Age: %d\n", person->age);
     printf("Weight: %d\n", person->weight);
@@ -44,10 +45,30 @@ void print_list(dll_t *my_list) {
     current_node = my_list->head;
     while (current_node) {
         printf("Person:\n");
-        print_person((person_t*)current_node->data);
+        if (current_node->data) {
+            print_person((person_t*)current_node->data);
+        }
+        else {
+            printf("-------n/a------\n\n");
+        }
         current_node = current_node->right;
     }
     return;
+}
+
+void remove_person_from_list(dll_t *person_list, person_t *person) {
+   
+
+    int result = 0;
+ 
+    result = remove_data_from_dll_by_data_ptr(person_list, (void*)person);
+   
+    if (result == 0) {
+        fprintf(stderr, "Person removed from list.\n");
+    }
+    else {
+        fprintf(stderr, "Person: %s could not be removed from the list.\n", person->name);
+    }
 }
 
 int main(int argc, char **argv()) {
@@ -61,8 +82,6 @@ int main(int argc, char **argv()) {
     mickey->age = 123133;
     mickey->weight = 12333;
 
-    print_person(mickey);
-
     person_t *terry = (person_t*)malloc(sizeof(person_t));
    
     if (!terry) {
@@ -72,8 +91,6 @@ int main(int argc, char **argv()) {
     terry->age = 4234;
     terry->weight = 341;
 
-    print_person(terry);
-    
     person_t *pat = (person_t*)malloc(sizeof(person_t));
 
     if (!pat) {
@@ -83,8 +100,6 @@ int main(int argc, char **argv()) {
     pat->age = 4204;
     pat->weight = 241;
 
-    print_person(pat);
-  
     /*
      * Create person list
      */  
@@ -95,60 +110,35 @@ int main(int argc, char **argv()) {
         fprintf(stderr, "Error allocating person list!\n");
         return -1;
     }
-   
 
-    /*
-    printf("Empty Currently:\n\n");
-    print_list(person_list); 
-    printf("Appending Mickey\n\n");
+
+    if (is_dll_empty(person_list) == 0) {
+        fprintf(stderr, "DLL is empty.\n");
+    }
+
+    printf("Appending Mickey..........\n");
     append_item(person_list, mickey);
-    printf("Printing List:\n\n");
+    printf("Printing List:.............\n");
     print_list(person_list);
 
+    if (is_dll_empty(person_list) == 0) {
+        fprintf(stderr, "I should not be here!\n\n");
+    }
     printf("Appending Terry:\n\n");
     append_item(person_list, terry);
-    printf("Printing List:\n\n");
-    print_list(person_list);
-
     printf("Appending Pat:\n\n");
     append_item(person_list, pat);
     printf("Printing List:\n\n");
     print_list(person_list);
-  
-    printf("Empty Currently:\n\n");
-    print_list(person_list); 
-    printf("Prepending Mickey\n\n");
-    prepend_item(person_list, mickey);
+
+    printf("Removing Pat....\n\n");
+    remove_person_from_list(person_list, pat);
     printf("Printing List:\n\n");
     print_list(person_list);
 
-    printf("Prepending Terry:\n\n");
-    prepend_item(person_list, terry);
-    printf("Printing List:\n\n");
+    printf("Draining List........\n");
+    drain_dll(person_list);
     print_list(person_list);
 
-    printf("Prending Pat:\n\n");
-    prepend_item(person_list, pat);
-    printf("Printing List:\n\n");
-    print_list(person_list);
-    */
-
-       
-    printf("Empty Currently:\n\n");
-    print_list(person_list); 
-    printf("Prepending Mickey\n\n");
-    prepend_item(person_list, mickey);
-    printf("Printing List:\n\n");
-    print_list(person_list);
-
-    printf("Appending Terry:\n\n");
-    append_item(person_list, terry);
-    printf("Printing List:\n\n");
-    print_list(person_list);
-
-    printf("Prending Pat:\n\n");
-    prepend_item(person_list, pat);
-    printf("Printing List:\n\n");
-    print_list(person_list);
     return 0;
 }
