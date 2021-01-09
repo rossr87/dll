@@ -27,7 +27,7 @@ int remove_data_from_dll_by_data_ptr(dll_t *my_list, void *app_data) {
 
 
 int is_dll_empty(dll_t *my_list) {
-    return (my_list) ? 0 : -1;
+    return (!my_list->head) ? 0 : -1;
 }
 
 
