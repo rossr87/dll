@@ -22,7 +22,18 @@ int remove_data_from_dll_by_data_ptr(dll_t *my_list, void *app_data) {
         current_node = current_node->right;
     }
 
-    return (current_node) ? 0 : -1;
+    /*
+     * Either the list has been traversed and the data is not present, or the data has been found.
+     */
+    if (!current_node) {
+        return -1
+    }
+    
+    /*
+     * we now remove our reference to the user data from our list, but don't free the memory!
+     */
+    current_node->data = NULL;
+    return 0;
 } 
 
 
